@@ -6,6 +6,33 @@ modify AngelOS upstream.
 
 ## Install
 
+From a terminal, download the reviewed installer and run it:
+
+```bash
+curl -fsSL -o /tmp/install-community-store.py \
+  https://raw.githubusercontent.com/futureUnd1ground/angelos-community-store/main/install-community-store.py
+python3 /tmp/install-community-store.py
+```
+
+Fish users can run the native Fish entry point:
+
+```fish
+curl -fsSL -o /tmp/install-community-store.fish \
+  https://raw.githubusercontent.com/futureUnd1ground/angelos-community-store/main/install-community-store.fish
+and fish /tmp/install-community-store.fish
+```
+
+It downloads the same verified Python installer to a temporary file, installs
+the Store, adds `~/.local/bin` to Fish's PATH, and removes the temporary file.
+The two steps are kept separate so the downloaded installer can be inspected
+before running it.
+
+The installer downloads the pinned release over HTTPS, validates its archive
+and manifest, installs it atomically in `~/.config/angelos/plugins`, creates
+the `community-store` command, and restarts AngelOS. Use
+`--no-restart` when restarting manually. Review the script before running it;
+it never executes a shell pipeline.
+
 Copy this directory to `~/.config/angelos/plugins/community-store/`, or use
 AngelOS Plugin Studio to install the files. Then reload the shell and open
 **Settings -> Plugins -> Community Store**.
