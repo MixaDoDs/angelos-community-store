@@ -1,7 +1,7 @@
 {
   "id": "community-store",
   "name": "Community Store",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "author": "AngelOS community",
   "description": "Find, install, update and remove community plugins.",
   "icon": "package",

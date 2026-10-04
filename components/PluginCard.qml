@@ -7,7 +7,6 @@ import "../services"
 PxBox {
     id: card
     required property var entry
-    required property var modelData
     property string query: ""
     property bool confirmingRemove: false
     signal openDetails(var entry)
