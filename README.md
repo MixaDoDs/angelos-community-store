@@ -59,6 +59,10 @@ Keys: `j/k` or arrows move, `Enter` installs or updates the selected plugin,
 shows all, `i` shows installed, `v` shows updates, and `q` exits. Changes
 restart AngelOS after the TUI closes.
 
+After a successful plugin install or update, the AngelOS shell restarts
+automatically so its components are loaded. A batch update triggers one restart
+after the queue completes.
+
 ## Install from the Run launcher
 
 Open the app launcher (`Mod+Space`), type `plugins` followed by part of a

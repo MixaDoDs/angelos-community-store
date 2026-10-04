@@ -67,6 +67,8 @@ Singleton {
         if (updateQueue.length === 0) {
             status = "ready"
             batchActive = false
+            if (batchDone > batchFailed)
+                shellRestart.restart()
             return
         }
         const entry = updateQueue[0]
@@ -151,8 +153,8 @@ Singleton {
                 if (code !== 0)
                     root.batchFailed++
                 nextInstall.start()
-            } else if (code === 0 && installer.command[4] === "community-store") {
-                storeRestart.restart()
+            } else if (code === 0) {
+                shellRestart.restart()
             }
         }
     }
@@ -163,7 +165,7 @@ Singleton {
         onTriggered: root.installNext()
     }
     Timer {
-        id: storeRestart
+        id: shellRestart
         interval: 1000
         onTriggered: Quickshell.execDetached(["angelos", "restart"])
     }
