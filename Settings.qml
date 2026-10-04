@@ -44,6 +44,7 @@ PxPage {
         Repeater {
             model: Plugins.plugins
             InstalledPluginCard {
+                required property int index
                 property int rowIndex: index
                 entry: Plugins.plugins[rowIndex]
                 onShowDetails: entry => page.selectedInstalled = entry
@@ -117,6 +118,7 @@ PxPage {
         Repeater {
             model: page.availableEntries
             PluginCard {
+                required property int index
                 property int rowIndex: index
                 entry: page.availableEntries[rowIndex]
                 onOpenDetails: entry => page.selected = entry
