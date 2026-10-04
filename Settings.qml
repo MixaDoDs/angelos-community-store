@@ -43,6 +43,7 @@ PxPage {
         Repeater {
             model: Plugins.plugins
             InstalledPluginCard {
+                required property var modelData
                 entry: modelData
                 onShowDetails: entry => page.selectedInstalled = entry
             }
@@ -114,7 +115,11 @@ PxPage {
         icon: "package"
         Repeater {
             model: Registry.entries.filter(page.matches)
-            PluginCard { entry: modelData; onOpenDetails: entry => page.selected = entry }
+            PluginCard {
+                required property var modelData
+                entry: modelData
+                onOpenDetails: entry => page.selected = entry
+            }
         }
         PxText { visible: !Registry.busy && Registry.entries.filter(page.matches).length === 0; text: "No plugins match this search."; dim: true }
     }
