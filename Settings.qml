@@ -57,11 +57,23 @@ PxPage {
         width: parent.width
         title: "Registry"
         icon: "settings"
-        PxText { width: parent.width; text: Registry.status === "loading" ? "Loading registry…" : Registry.error || (Registry.entries.length + " plugins loaded"); dim: true; wrapMode: Text.Wrap }
+        PxText {
+            width: parent.width
+            text: Registry.status === "loading" ? "Loading registry…" : Registry.error || (Registry.entries.length + " approved plugins loaded")
+            dim: true
+            wrapMode: Text.Wrap
+        }
+        PxText {
+            width: parent.width
+            text: "Only plugins marked approved in the registry are listed. Review submissions and change their status in the registry repository."
+            dim: true
+            wrapMode: Text.Wrap
+        }
         Row {
             spacing: Theme.u * 2
             PxButton { compact: true; text: "Refresh"; icon: "refresh"; enabled: !Registry.busy; onClicked: Registry.fetch() }
             PxButton { compact: true; text: "Save registry URL"; icon: "save"; onClicked: Registry.setRegistry(page.registryInput) }
+            PxButton { compact: true; text: "Moderate on GitHub"; icon: "external"; onClicked: Quickshell.execDetached(["xdg-open", "https://github.com/futureUnd1ground/angelos-community-registry"]) }
         }
         PxField { width: parent.width; text: page.registryInput; onEdited: page.registryInput = text; placeholder: "HTTPS plugins.json URL" }
     }

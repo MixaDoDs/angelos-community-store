@@ -94,7 +94,7 @@ Singleton {
                 const payload = JSON.parse(fetchOutput.text)
                 if (!payload || payload.version !== 1 || !Array.isArray(payload.plugins))
                     throw new Error("Unsupported registry format")
-                root.entries = payload.plugins.filter(p => p && typeof p.id === "string" && typeof p.name === "string" && typeof p.source === "string")
+                root.entries = payload.plugins.filter(p => p && p.status === "approved" && typeof p.id === "string" && typeof p.name === "string" && typeof p.source === "string")
                 root.status = "ready"
                 root.changed()
             } catch (e) {

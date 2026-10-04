@@ -20,3 +20,25 @@ Use an HTTPS ZIP release with a top-level `manifest.json` (or one directory
 containing it). The registry `id` and `version` must match that manifest. The
 installer rejects path traversal, malformed manifests, mismatched IDs or
 versions, non-HTTPS sources, and archives over 64 MiB.
+
+## Publish a plugin to the catalog
+
+1. Keep the plugin source in its own GitHub repository. Its AngelOS
+   `manifest.json` must have a unique `id` and a `version` matching the
+   release you publish.
+2. Create a ZIP containing the plugin folder and publish it as an asset on a
+   GitHub Release. The ZIP must contain exactly one `manifest.json`, either
+   at its root or one directory below it.
+3. Fork
+   [angelos-community-registry](https://github.com/futureUnd1ground/angelos-community-registry),
+   add an entry to `plugins.json` with `status` set to `pending`, and open a
+   pull request. Include the source URL, repository, author, description,
+   tags, license, dependencies, and requested permissions.
+4. The registry maintainer reviews the code, license, ZIP, and compatibility.
+   After approval, the maintainer changes `status` to `approved` and merges
+   the pull request. Approved entries appear after **Refresh** in Community
+   Store.
+
+The registry owner moderates listings through GitHub pull requests. Pending
+entries are not shown in the Store; changing an approved entry back to
+`pending` hides it on the next registry refresh.
