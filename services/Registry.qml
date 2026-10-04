@@ -14,6 +14,14 @@ Singleton {
     property string error: ""
     property string status: "idle"
     property bool busy: fetcher.running || installer.running
+    property var updateQueue: []
+    property bool batchActive: false
+    property int batchTotal: 0
+    property int batchDone: 0
+    property int batchFailed: 0
+    readonly property var storeEntry: entries.find(p => p.id === "community-store") || null
+    readonly property int availablePluginUpdates: entries.filter(p => p.id !== "community-store" && installed(p.id) && newer(version(p.id), p.version)).length
+    readonly property bool storeUpdateAvailable: !!storeEntry && !!installed("community-store") && newer(version("community-store"), storeEntry.version)
     signal changed
     signal operationFinished(bool ok, string message)
 
@@ -41,6 +49,29 @@ Singleton {
         installer.command = ["python3", plugin.dir + "/scripts/community-store.py", "install",
                              entry.source || "", entry.id || "", entry.version || ""]
         installer.running = true
+    }
+
+    function updateAllPlugins() {
+        if (busy)
+            return
+        updateQueue = entries.filter(p => p.id !== "community-store" && installed(p.id) && newer(version(p.id), p.version))
+        batchTotal = updateQueue.length
+        batchDone = 0
+        batchFailed = 0
+        batchActive = batchTotal > 0
+        if (batchActive)
+            installNext()
+    }
+
+    function installNext() {
+        if (updateQueue.length === 0) {
+            status = "ready"
+            batchActive = false
+            return
+        }
+        const entry = updateQueue[0]
+        updateQueue = updateQueue.slice(1)
+        install(entry)
     }
 
     function uninstall(id) {
@@ -115,6 +146,25 @@ Singleton {
             Plugins.reload()
             root.changed()
             root.operationFinished(code === 0, message)
+            if (root.batchActive) {
+                root.batchDone++
+                if (code !== 0)
+                    root.batchFailed++
+                nextInstall.start()
+            } else if (code === 0 && installer.command[4] === "community-store") {
+                storeRestart.restart()
+            }
         }
+    }
+
+    Timer {
+        id: nextInstall
+        interval: 350
+        onTriggered: root.installNext()
+    }
+    Timer {
+        id: storeRestart
+        interval: 1000
+        onTriggered: Quickshell.execDetached(["angelos", "restart"])
     }
 }

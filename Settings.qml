@@ -44,6 +44,40 @@ PxPage {
 
     PxGroup {
         width: parent.width
+        title: "Updates"
+        icon: "download"
+        PxText {
+            width: parent.width
+            text: Registry.availablePluginUpdates + " plugin update" + (Registry.availablePluginUpdates === 1 ? "" : "s") + " available"
+            dim: true
+        }
+        Row {
+            spacing: Theme.u * 2
+            PxButton {
+                compact: true
+                text: Registry.busy && Registry.batchTotal > 0 ? "Updating " + Registry.batchDone + "/" + Registry.batchTotal : "Update all plugins"
+                icon: "download"
+                enabled: !Registry.busy && Registry.availablePluginUpdates > 0
+                onClicked: Registry.updateAllPlugins()
+            }
+            PxButton {
+                compact: true
+                text: Registry.storeUpdateAvailable ? "Update Store to v" + Registry.storeEntry.version : "Store is up to date"
+                icon: Registry.storeUpdateAvailable ? "refresh" : "check"
+                enabled: !Registry.busy && Registry.storeUpdateAvailable
+                onClicked: Registry.install(Registry.storeEntry)
+            }
+        }
+        PxText {
+            visible: Registry.batchTotal > 0 && !Registry.busy
+            width: parent.width
+            text: "Updated " + Registry.batchDone + "/" + Registry.batchTotal + (Registry.batchFailed ? " · " + Registry.batchFailed + " failed" : " · all complete")
+            dim: Registry.batchFailed > 0
+        }
+    }
+
+    PxGroup {
+        width: parent.width
         title: "Available plugins (" + Registry.entries.filter(page.matches).length + ")"
         icon: "package"
         Repeater {
