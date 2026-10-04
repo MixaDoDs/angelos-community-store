@@ -59,6 +59,12 @@ Keys: `j/k` or arrows move, `Enter` installs or updates the selected plugin,
 shows all, `i` shows installed, `v` shows updates, and `q` exits. Changes
 restart AngelOS after the TUI closes.
 
+## Install from the Run launcher
+
+Open the app launcher (`Mod+Space`), type `plugins` followed by part of a
+plugin's name, author, description, or tag, then select `Install`, `Update`,
+or `Remove`. Removal uses AngelOS's native plugin trash behavior.
+
 The default registry is the raw `plugins.json` in
 `https://github.com/futureUnd1ground/angelos-community-registry`. The URL can
 be changed in the page.

@@ -1,11 +1,12 @@
 {
   "id": "community-store",
   "name": "Community Store",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "author": "AngelOS community",
   "description": "Find, install, update and remove community plugins.",
   "icon": "package",
   "enabledByDefault": true,
   "settings": "Settings.qml",
-  "main": "Main.qml"
+  "main": "Main.qml",
+  "launcher": "Launcher.qml"
 }
