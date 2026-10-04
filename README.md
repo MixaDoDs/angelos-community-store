@@ -42,3 +42,11 @@ versions, non-HTTPS sources, and archives over 64 MiB.
 The registry owner moderates listings through GitHub pull requests. Pending
 entries are not shown in the Store; changing an approved entry back to
 `pending` hides it on the next registry refresh.
+
+## Browse installed plugins
+
+The **Installed plugins** section lists plugins discovered by AngelOS,
+including built-in and user plugins. From a row you can enable or disable the
+plugin, open its details or directory, and remove a user plugin. Built-in
+plugins are hidden using AngelOS's native remove behavior; their files remain
+part of the AngelOS installation.

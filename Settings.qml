@@ -13,6 +13,7 @@ PxPage {
     property string search: ""
     property string category: "All"
     property var selected: null
+    property var selectedInstalled: null
     property string registryInput: Registry.url
     property var plugin
 
@@ -34,12 +35,43 @@ PxPage {
         text: page.search
         onEdited: page.search = text
     }
+
+    PxGroup {
+        width: parent.width
+        title: "Installed plugins (" + Plugins.plugins.length + ")"
+        icon: "plug"
+        Repeater {
+            model: Plugins.plugins
+            InstalledPluginCard {
+                entry: modelData
+                onShowDetails: entry => page.selectedInstalled = entry
+            }
+        }
+        PxText { visible: Plugins.scanning; text: "Reading installed plugins…"; dim: true }
+    }
     Row {
         spacing: Theme.u * 2
         Repeater {
             model: ["All", "Widgets", "Desktop", "Bar", "Utilities", "Themes"]
             PxButton { compact: true; text: modelData; checked: page.category === modelData; onClicked: page.category = modelData }
         }
+    }
+
+    PxGroup {
+        visible: !!page.selectedInstalled
+        width: parent.width
+        title: page.selectedInstalled ? I18n.label(page.selectedInstalled.name) : "Installed plugin details"
+        PxText {
+            width: parent.width
+            text: page.selectedInstalled ? I18n.label(page.selectedInstalled.description || "") +
+                "\n\nID: " + page.selectedInstalled.id +
+                "\nVersion: " + (page.selectedInstalled.version || "0") +
+                "\nAuthor: " + (page.selectedInstalled.author || "Unknown") +
+                "\nLocation: " + page.selectedInstalled.dir : ""
+            wrapMode: Text.Wrap
+        }
+        PxButton { compact: true; icon: "folder"; text: "Open folder"; onClicked: Shell.openPath(page.selectedInstalled.dir) }
+        PxButton { compact: true; icon: "close"; text: "Close"; onClicked: page.selectedInstalled = null }
     }
 
     PxGroup {
