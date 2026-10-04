@@ -4,7 +4,6 @@ import qs.config
 import qs.widgets
 import qs.services
 import "services"
-import "components"
 
 PxPage {
     id: page
