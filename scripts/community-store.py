@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Small, dependency-free registry and installer for Community Store."""
-import json, os, shutil, sys, tempfile, urllib.request, zipfile
+import json, os, shutil, sys, tempfile, time, urllib.parse, urllib.request, zipfile
 from pathlib import Path
 
 MAX_REGISTRY = 2 * 1024 * 1024
@@ -14,6 +14,10 @@ def fail(message):
 def fetch(url):
     if not url.startswith("https://"):
         return fail("Registry URL must use HTTPS")
+    parts = urllib.parse.urlsplit(url)
+    query = urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+    query.append(("_angelos_store", str(time.time_ns())))
+    url = urllib.parse.urlunsplit(parts._replace(query=urllib.parse.urlencode(query)))
     request = urllib.request.Request(url, headers={"User-Agent": "angelos-community-store/0.1"})
     with urllib.request.urlopen(request, timeout=20) as response:
         data = response.read(MAX_REGISTRY + 1)

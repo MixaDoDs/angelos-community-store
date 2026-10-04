@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import time
+import urllib.parse
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -56,7 +57,12 @@ def registry_url():
 
 
 def fetch_registry():
-    result = subprocess.run([sys.executable, str(HELPER), "fetch", registry_url()], capture_output=True, text=True)
+    url = registry_url()
+    parts = urllib.parse.urlsplit(url)
+    query = urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+    query.append(("_angelos_store", str(time.time_ns())))
+    url = urllib.parse.urlunsplit(parts._replace(query=urllib.parse.urlencode(query)))
+    result = subprocess.run([sys.executable, str(HELPER), "fetch", url], capture_output=True, text=True)
     if result.returncode:
         raise RuntimeError(result.stderr.strip() or "Could not load registry")
     payload = json.loads(result.stdout)
