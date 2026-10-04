@@ -7,6 +7,7 @@ import qs.services
 PxBox {
     id: card
     required property var entry
+    required property var modelData
     property bool confirmingRemove: false
     signal showDetails(var entry)
     width: parent ? parent.width : 500
