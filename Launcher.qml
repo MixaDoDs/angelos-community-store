@@ -4,8 +4,11 @@ import Quickshell.Io
 import qs.services
 
 // Search community plugins with: plugins <name, author, description, or tag>
-QtObject {
+Item {
     id: root
+    visible: false
+    width: 0
+    height: 0
 
     property var plugin
     property string pluginId

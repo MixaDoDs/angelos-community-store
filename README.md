@@ -68,6 +68,8 @@ after the queue completes.
 Open the app launcher (`Mod+Space`), type `plugins` followed by part of a
 plugin's name, author, description, or tag, then select `Install`, `Update`,
 or `Remove`. Removal uses AngelOS's native plugin trash behavior.
+The page is also available at **Settings -> Plugins -> Community Store**. The
+shell restarts after updates to load the changed plugin components.
 
 The default registry is the raw `plugins.json` in
 `https://github.com/futureUnd1ground/angelos-community-registry`. The URL can
