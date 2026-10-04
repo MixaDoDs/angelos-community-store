@@ -10,6 +10,26 @@ Copy this directory to `~/.config/angelos/plugins/community-store/`, or use
 AngelOS Plugin Studio to install the files. Then reload the shell and open
 **Settings -> Plugins -> Community Store**.
 
+## Terminal interface
+
+The store also has a standalone TUI and does not require the Settings GUI:
+
+```bash
+python3 ~/.config/angelos/plugins/community-store/scripts/community-store-tui.py
+```
+
+The first run creates `~/.local/bin/community-store`, so later runs are:
+
+```bash
+community-store
+```
+
+Keys: `j/k` or arrows move, `Enter` installs or updates the selected plugin,
+`d` removes it to AngelOS plugin-trash, `U` updates all community plugins,
+`s` updates the Store itself, `r` refreshes the registry, `/` searches, `a`
+shows all, `i` shows installed, `v` shows updates, and `q` exits. Changes
+restart AngelOS after the TUI closes.
+
 The default registry is the raw `plugins.json` in
 `https://github.com/futureUnd1ground/angelos-community-registry`. The URL can
 be changed in the page.
