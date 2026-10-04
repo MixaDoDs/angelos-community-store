@@ -90,7 +90,7 @@ QtObject {
         return true
     }
 
-    Process {
+    property Process registryProcess: Process {
         id: registry
         stdout: StdioCollector { id: registryOutput }
         stderr: StdioCollector { id: registryError }
@@ -113,7 +113,7 @@ QtObject {
         }
     }
 
-    Process {
+    property Process installerProcess: Process {
         id: installer
         stdout: StdioCollector { id: installOutput }
         stderr: StdioCollector { id: installError }

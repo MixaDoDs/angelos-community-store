@@ -102,6 +102,15 @@ The registry owner moderates listings through GitHub pull requests. Pending
 entries are not shown in the Store; changing an approved entry back to
 `pending` hides it on the next registry refresh.
 
+## Build a Store release
+
+From this repository, run `python3 -m unittest discover -s tests -v` and then
+`python3 scripts/build-release.py`. The latter creates
+`community-store-v<manifest version>.zip` with the QML components, services,
+and scripts required by the installer. Upload that ZIP to a GitHub Release
+with the same version as `manifest.json`. The installer rejects incomplete
+archives before replacing an existing installation.
+
 ## Browse installed plugins
 
 The **Installed plugins** section lists plugins discovered by AngelOS,

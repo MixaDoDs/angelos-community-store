@@ -36,6 +36,47 @@ PxPage {
         onEdited: page.search = text
     }
 
+    Row {
+        spacing: Theme.u * 2
+        Repeater {
+            model: ["All", "Widgets", "Desktop", "Bar", "Utilities", "Themes"]
+            PxButton { compact: true; text: modelData; checked: page.category === modelData; onClicked: page.category = modelData }
+        }
+    }
+
+    PxGroup {
+        width: parent.width
+        title: "Available plugins (" + Registry.entries.filter(page.matches).length + ")"
+        icon: "package"
+        PxText {
+            width: parent.width
+            text: Registry.status === "loading" ? "Loading registry…" : Registry.error || (Registry.entries.length + " approved plugins loaded")
+            dim: !Registry.error
+            wrapMode: Text.Wrap
+        }
+        PxButton {
+            compact: true
+            text: "Refresh catalog"
+            icon: "refresh"
+            enabled: !Registry.busy
+            visible: Registry.status === "error"
+            onClicked: Registry.fetch()
+        }
+        Repeater {
+            model: Registry.entries.filter(page.matches)
+            PluginCard {
+                required property var modelData
+                entry: modelData
+                onOpenDetails: entry => page.selected = entry
+            }
+        }
+        PxText {
+            visible: Registry.status === "ready" && Registry.entries.filter(page.matches).length === 0
+            text: Registry.entries.length ? "No plugins match this search." : "No approved plugins in this registry."
+            dim: true
+        }
+    }
+
     PxGroup {
         width: parent.width
         title: "Installed plugins (" + Plugins.plugins.length + ")"
@@ -49,13 +90,6 @@ PxPage {
             }
         }
         PxText { visible: Plugins.scanning; text: "Reading installed plugins…"; dim: true }
-    }
-    Row {
-        spacing: Theme.u * 2
-        Repeater {
-            model: ["All", "Widgets", "Desktop", "Bar", "Utilities", "Themes"]
-            PxButton { compact: true; text: modelData; checked: page.category === modelData; onClicked: page.category = modelData }
-        }
     }
 
     PxGroup {
@@ -111,29 +145,8 @@ PxPage {
 
     PxGroup {
         width: parent.width
-        title: "Available plugins (" + Registry.entries.filter(page.matches).length + ")"
-        icon: "package"
-        Repeater {
-            model: Registry.entries.filter(page.matches)
-            PluginCard {
-                required property var modelData
-                entry: modelData
-                onOpenDetails: entry => page.selected = entry
-            }
-        }
-        PxText { visible: !Registry.busy && Registry.entries.filter(page.matches).length === 0; text: "No plugins match this search."; dim: true }
-    }
-
-    PxGroup {
-        width: parent.width
         title: "Registry"
         icon: "settings"
-        PxText {
-            width: parent.width
-            text: Registry.status === "loading" ? "Loading registry…" : Registry.error || (Registry.entries.length + " approved plugins loaded")
-            dim: true
-            wrapMode: Text.Wrap
-        }
         PxText {
             width: parent.width
             text: "Only plugins marked approved in the registry are listed. Review submissions and change their status in the registry repository."

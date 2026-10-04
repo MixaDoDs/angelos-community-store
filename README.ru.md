@@ -59,6 +59,14 @@ registry, `/` ищет, `a` показывает все, `i` установле�
 Плагин появляется в Store только после статуса `approved`. Store проверяет
 HTTPS, manifest, ID и версию, безопасные пути архива и размер ZIP.
 
+## Сборка релиза Store
+
+В каталоге репозитория запусти `python3 -m unittest discover -s tests -v`,
+затем `python3 scripts/build-release.py`. В ZIP
+`community-store-v<версия из manifest>.zip` попадут все необходимые QML-компоненты,
+сервисы и скрипты. Загрузи ZIP в GitHub Release с такой же версией, как
+в `manifest.json`. Неполный архив установщик отклоняет до замены плагина.
+
 ## Публикация
 
 Инструкция разработчика находится в registry:

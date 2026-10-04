@@ -16,6 +16,18 @@ RELEASE_URL = "https://github.com/futureUnd1ground/angelos-community-store/relea
 MAX_ARCHIVE = 64 * 1024 * 1024
 TARGET = Path.home() / ".config/angelos/plugins/community-store"
 LAUNCHER = Path.home() / ".local/bin/community-store"
+REQUIRED_FILES = (
+    "Main.qml",
+    "Settings.qml",
+    "Launcher.qml",
+    "qmldir",
+    "components/PluginCard.qml",
+    "components/InstalledPluginCard.qml",
+    "services/Registry.qml",
+    "services/qmldir",
+    "scripts/community-store.py",
+    "scripts/community-store-tui.py",
+)
 
 
 def fail(message):
@@ -57,7 +69,11 @@ def unpack_checked(archive, root):
         fail("The archive manifest is not community-store")
     if not str(manifest.get("version", "")).strip():
         fail("The archive manifest has no version")
-    return manifest_path.parent, manifest
+    source = manifest_path.parent
+    for name in REQUIRED_FILES:
+        if not (source / name).is_file():
+            fail("The archive is missing {}".format(name))
+    return source, manifest
 
 
 def install(url, restart=True):
