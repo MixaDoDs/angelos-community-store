@@ -16,6 +16,7 @@ PxPage {
     property var selectedInstalled: null
     property string registryInput: Registry.url
     property var plugin
+    readonly property var availableEntries: Registry.entries.filter(page.matches)
 
     Component.onCompleted: {
         Registry.plugin = plugin
@@ -43,8 +44,8 @@ PxPage {
         Repeater {
             model: Plugins.plugins
             InstalledPluginCard {
-                required property var modelData
-                entry: modelData
+                property int rowIndex: index
+                entry: Plugins.plugins[rowIndex]
                 onShowDetails: entry => page.selectedInstalled = entry
             }
         }
@@ -114,14 +115,14 @@ PxPage {
         title: "Available plugins (" + Registry.entries.filter(page.matches).length + ")"
         icon: "package"
         Repeater {
-            model: Registry.entries.filter(page.matches)
+            model: page.availableEntries
             PluginCard {
-                required property var modelData
-                entry: modelData
+                property int rowIndex: index
+                entry: page.availableEntries[rowIndex]
                 onOpenDetails: entry => page.selected = entry
             }
         }
-        PxText { visible: !Registry.busy && Registry.entries.filter(page.matches).length === 0; text: "No plugins match this search."; dim: true }
+        PxText { visible: !Registry.busy && page.availableEntries.length === 0; text: "No plugins match this search."; dim: true }
     }
 
     PxGroup {
