@@ -1,0 +1,2 @@
+module CommunityStore
+singleton Registry 1.0 services/Registry.qml
