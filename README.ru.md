@@ -1,6 +1,6 @@
 # AngelOS Community Store
 
-[English](README.md) | [Русский](README.ru.md)
+[English version](README.md) | Русская версия
 
 Независимый плагин AngelOS для поиска, установки, обновления и удаления
 community-плагинов через нативную систему AngelOS.

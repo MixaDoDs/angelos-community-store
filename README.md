@@ -1,5 +1,7 @@
 # AngelOS Community Store
 
+[Русская версия](README.ru.md) | English
+
 An independent AngelOS plugin that uses the native plugin directory and
 `Plugins` service. It is installed like any other user plugin and does not
 modify AngelOS upstream.
